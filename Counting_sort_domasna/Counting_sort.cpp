@@ -7,13 +7,12 @@ using namespace std::chrono;
 long long int d = 0;
 
 //Функција за сортирање
-int* counting_sort(int* a, int n)
+int* counting_sort(int *a, int n)
 {
     int max = 0;
     //Барање максимален елемент
     for(int i = 0; i < n; i++)
     {
-        d++;
         if(a[i] > max)
         {
             max = a[i];
@@ -23,8 +22,9 @@ int* counting_sort(int* a, int n)
     //Декларирање на втората низа
     int c[max + 1];
     //Додекување вредности 0
-    for(int i = 0; i < max; i++)
+    for(int i = 0; i <= max; i++)
     {
+        d++;
         c[i] = 0;
     }
     //Доделување вредности на секој елемент
@@ -42,7 +42,7 @@ int* counting_sort(int* a, int n)
     }
 
     //Декларирање на третата низа
-    int s[n];
+    int* s = new int[n];
     //Пополнување на третата низа, со што се добива сортираната низа
     for(int i = n - 1; i >= 0; i--)
     {
@@ -57,7 +57,7 @@ int main()
 {
     srand(time(0));
     int n = 100;
-    int *a = new int[n];
+    int a[n];
 
     for(int i = 0; i < n; i++)
     {
@@ -69,10 +69,11 @@ int main()
     auto time = chrono::steady_clock::now().time_since_epoch() - startTime;
 
     cout << "Broj na iteracii: " << d << endl;
-    cout << "Potrebno vreme: " << time.count() << endl;
+    cout << "Potrebno vreme: " << chrono::duration_cast<chrono::microseconds>(time).count() << " mikrosekundi" << endl;
 
     /*for(int i = 0; i < n; i ++)
     {
         cout << s[i] << " ";
     }*/
+   delete []s;
 }
