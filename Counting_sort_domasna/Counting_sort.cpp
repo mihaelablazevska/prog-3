@@ -7,7 +7,7 @@ using namespace std::chrono;
 long long int d = 0;
 
 //Функција за сортирање
-vector<int> counting_sort(vector<int> &a, int n)
+int* counting_sort(int* a, int n)
 {
     int max = 0;
     //Барање максимален елемент
@@ -21,8 +21,13 @@ vector<int> counting_sort(vector<int> &a, int n)
     }
  
     //Декларирање на втората низа
-    vector<int> c(max + 1, 0);
-    //Додекување вредности на секој елемент
+    int c[max + 1];
+    //Додекување вредности 0
+    for(int i = 0; i < max; i++)
+    {
+        c[i] = 0;
+    }
+    //Доделување вредности на секој елемент
     for(int i = 0; i < n; i ++)
     {
         c[a[i]]++;
@@ -37,7 +42,7 @@ vector<int> counting_sort(vector<int> &a, int n)
     }
 
     //Декларирање на третата низа
-    vector<int> s(n);
+    int s[n];
     //Пополнување на третата низа, со што се добива сортираната низа
     for(int i = n - 1; i >= 0; i--)
     {
@@ -52,7 +57,7 @@ int main()
 {
     srand(time(0));
     int n = 100;
-    vector<int> a(n);
+    int *a = new int[n];
 
     for(int i = 0; i < n; i++)
     {
@@ -60,7 +65,7 @@ int main()
     }
 
     auto startTime = chrono::steady_clock::now().time_since_epoch();
-    vector<int> s = counting_sort(a, n);
+    int *s = counting_sort(a, n);
     auto time = chrono::steady_clock::now().time_since_epoch() - startTime;
 
     cout << "Broj na iteracii: " << d << endl;
