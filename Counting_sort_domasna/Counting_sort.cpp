@@ -1,14 +1,16 @@
 //Counting sort
 #include <bits/stdc++.h>
-#include <ctime>
+#include <chrono>
 using namespace std;
+using namespace std::chrono;
 
 long long int d = 0;
 
-//Функција која најпрво го нао
+//Функција за сортирање
 vector<int> counting_sort(vector<int> &a, int n)
 {
     int max = 0;
+    //Барање максимален елемент
     for(int i = 0; i < n; i++)
     {
         d++;
@@ -17,20 +19,26 @@ vector<int> counting_sort(vector<int> &a, int n)
             max = a[i];
         }
     }
-
+ 
+    //Декларирање на втората низа
     vector<int> c(max + 1, 0);
+    //Додекување вредности на секој елемент
     for(int i = 0; i < n; i ++)
     {
         c[a[i]]++;
         d++;
     }
 
-    vector<int> s(n);
+    //Прилагодување на вредностите на втората низа
     for(int i = 1; i <= max; i++)
     {
         c[i]+=c[i-1];
         d++;
     }
+
+    //Декларирање на третата низа
+    vector<int> s(n);
+    //Пополнување на третата низа, со што се добива сортираната низа
     for(int i = n - 1; i >= 0; i--)
     {
         s[c[a[i]]-1] = a[i];
@@ -43,7 +51,7 @@ vector<int> counting_sort(vector<int> &a, int n)
 int main()
 {
     srand(time(0));
-    int n = 10000;
+    int n = 100;
     vector<int> a(n);
 
     for(int i = 0; i < n; i++)
@@ -51,14 +59,12 @@ int main()
         a[i] = rand()%(n);
     }
 
-    clock_t start = clock();
+    auto startTime = chrono::steady_clock::now().time_since_epoch();
     vector<int> s = counting_sort(a, n);
-    clock_t end = clock();
+    auto time = chrono::steady_clock::now().time_since_epoch() - startTime;
 
-    double cpu_time = double(end - start) / CLOCKS_PER_SEC;
-
-    cout <<" Broj na iteracii: "<< d << endl;
-    cout << "Potrebno vreme: " << cpu_time << " sekundi" << endl;
+    cout << "Broj na iteracii: " << d << endl;
+    cout << "Potrebno vreme: " << time.count() << endl;
 
     /*for(int i = 0; i < n; i ++)
     {
